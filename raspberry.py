@@ -65,7 +65,7 @@ def update_gtfs():
 
     # get list of stops for each relevant route, copy translations to relevant routes
     for route in routes.keys():
-        stops_for_route = requests.get(f'https://api.pugetsound.onebusaway.org/api/where/stops-for-route/1_100214.json?key=a453f774-0161-4288-bc73-22c37fcf55b8').json()
+        stops_for_route = requests.get(f'https://api.pugetsound.onebusaway.org/api/where/stops-for-route/1_100214.json?key={secret.api_key}').json()
         route_dict = routes[route]
         route_dict.clear()
         stop_list = stops_for_route["data"]["entry"]["stopIds"]
@@ -111,10 +111,15 @@ def update_gtfs():
 def get_beacon_hill_stop():
     # agency ID for one line: 40
     # 1 line ID: 40_100479
-    beacon_hill_id = "99240"
-    stops_for_route = requests.get(f'https://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/40_99240.json?key=a453f774-0161-4288-bc73-22c37fcf55b8').json()
-    print(stops_for_route["data"]["entry"])
-
+    stop_id = "40_99240"
+    url = "https://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/" + stop_id + ".json?key=" + secret.api_key
+    print(url)
+    incoming = requests.get(f'{url}').json()["data"]["entry"]["arrivalsAndDepartures"]
+    for services in incoming:
+        print(services["routeShortName"])
+        if services["routeShortName"] == "1 Line":
+            print(services["tripStatus"]["closestStop"])
+            print(services["numberOfStopsAway"])
 
 @server.route('/routes')
 def get_routes():
