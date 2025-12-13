@@ -27,11 +27,11 @@ scheduler = BackgroundScheduler()
 
 gtfs_url = 'https://www.soundtransit.org/GTFS-rail/40_gtfs.zip'
 routes = {
-    '40_100479': {}, # 1 line
-    '40_2LINE': {},
-    '40_TLINE': {},
-    '40_SNDR_TL': {}, # Sounder S line (seattle - tacoma dome/lakewood)
-    '40_SNDR_EV': {} # Sounder N line (seattle - everett)
+    '1_100224': {}, # 1 line
+    # '40_2LINE': {},
+    # '40_TLINE': {},
+    # '40_SNDR_TL': {}, # Sounder S line (seattle - tacoma dome/lakewood)
+    # '40_SNDR_EV': {} # Sounder N line (seattle - everett)
 }
 route_metadata = {}
 cache = {}
@@ -65,13 +65,15 @@ def update_gtfs():
 
     # get list of stops for each relevant route, copy translations to relevant routes
     for route in routes.keys():
-        stops_for_route = requests.get(f'https://api.pugetsound.onebusaway.org/api/where/stops-for-route/{route}.json?key={secret.api_key}').json()
+        stops_for_route = requests.get(f'https://api.pugetsound.onebusaway.org/api/where/stops-for-route/1_100214.json?key=a453f774-0161-4288-bc73-22c37fcf55b8').json()
         route_dict = routes[route]
         route_dict.clear()
-        print(route_dict)
-        stop_list = stops_for_route['data']['entry']['stopIds']
+        stop_list = stops_for_route["data"]["entry"]["stopIds"]
+        print(stop_list)
         for stop_id in stop_list:
-            stop_name = stop_id_to_name[stop_id]
+            print(stop_id)
+            stop_name = stop_id_to_name['40_' + stop_id]
+            print(stop_name)
             id_list = route_dict.get(stop_name, [])
             id_list.append(stop_id)
             route_dict[stop_name] = id_list
