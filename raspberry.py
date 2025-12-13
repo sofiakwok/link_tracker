@@ -69,7 +69,7 @@ def update_gtfs():
         route_dict = routes[route]
         route_dict.clear()
         stop_list = stops_for_route["data"]["entry"]["stopIds"]
-        print(stop_list)
+        print(stops_for_route["data"]["entry"])
         for stop_id in stop_list:
             print(stop_id)
             stop_name = stop_id_to_name['40_' + stop_id]
@@ -108,6 +108,14 @@ def update_gtfs():
     print(route_metadata)
     archive.close()
 
+def get_beacon_hill_stop():
+    # agency ID for one line: 40
+    # 1 line ID: 40_100479
+    beacon_hill_id = "99240"
+    stops_for_route = requests.get(f'https://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/40_99240.json?key=a453f774-0161-4288-bc73-22c37fcf55b8').json()
+    print(stops_for_route["data"]["entry"])
+
+
 @server.route('/routes')
 def get_routes():
     #if not request.headers.get('User-Agent').startswith('GodotEngine'): return Response(status=400)
@@ -134,7 +142,7 @@ def get_arrivals(route):
         time.sleep(0.1)
     return arrivals
 
-update_gtfs()
+get_beacon_hill_stop()
 
 # scheduler.add_job(update_gtfs, trigger='interval', days=1, id='update_gtfs', next_run_time=datetime.now())
 # scheduler.start()
