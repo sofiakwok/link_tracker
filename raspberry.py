@@ -86,26 +86,27 @@ def load_stop_names():
 def get_beacon_hill_stop():
     # agency ID for one line: 40
     # 1 line ID: 40_100479
-    stop_id = "40_99240"
-    url = "https://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/" + stop_id + ".json?key=" + secret.api_key
-    print(url)
-    data = requests.get(f'{url}').json()
-    current_time = int(data["currentTime"])
-    incoming = data["data"]["entry"]["arrivalsAndDepartures"]
-    for services in incoming:
-        # print(services["routeShortName"])
-        if services["routeShortName"] == "1 Line":
-            # print(services["numberOfStopsAway"])
-            if services["predicted"] and services["departureEnabled"]:
-                print("")
-                time_to_go = (int(services["predictedArrivalTime"]) - current_time) / 1000 / 60
-                print("time to go (min): " + str(int(time_to_go)))
-                print("closest stop: " + str(services["tripStatus"]["closestStop"]))
-                print("stops away: " + str(services["numberOfStopsAway"]))
-                
-                # TODO: figure out north and south
-                direction = get_stop_direction(stop_id=services["tripStatus"]["closestStop"])
-                print("direction: " + str(direction))
+    stop_ids = ["40_99240", '40_C19', '40_99121']
+    for stop_id in stop_ids:
+        print(stop_id)
+        url = "https://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/" + stop_id + ".json?key=" + secret.api_key
+        print(url)
+        data = requests.get(f'{url}').json()
+        current_time = int(data["currentTime"])
+        incoming = data["data"]["entry"]["arrivalsAndDepartures"]
+        for services in incoming:
+            # print(services["routeShortName"])
+            if services["routeShortName"] == "1 Line":
+                # print(services["numberOfStopsAway"])
+                if services["predicted"] and services["departureEnabled"]:
+                    time_to_go = (int(services["predictedArrivalTime"]) - current_time) / 1000 / 60
+                    print("time to go (min): " + str(int(time_to_go)))
+                    print("closest stop: " + str(services["tripStatus"]["closestStop"]))
+                    print("stops away: " + str(services["numberOfStopsAway"]))
+                    
+                    # TODO: figure out north and south
+                    direction = get_stop_direction(stop_id=services["tripStatus"]["closestStop"])
+                    print("direction: " + str(direction))
 
 def get_stop_direction(stop_id):
     # get stop value
