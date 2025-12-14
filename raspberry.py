@@ -50,81 +50,28 @@ def make_request(url):
 
     return cached_request[0]
 
-def update_gtfs():
-    archive = ZipFile(BytesIO(requests.get(gtfs_url).content))
-
-    # get stops data
-    stops_file = archive.open('stops.txt')
-
-    # generate a stop name to stop ID dict
-    stop_id_to_name = {}
-    for line in stops_file.readlines():
-        contents = line.decode('utf-8').split(',')
-        id = contents[0]
-        name = contents[1]
-        stop_id_to_name['40_' + id] = name
-
-    # get list of stops for each relevant route, copy translations to relevant routes
-    for route in routes.keys():
-        stops_for_route = requests.get(f'https://api.pugetsound.onebusaway.org/api/where/stops-for-route/1_100214.json?key={secret.api_key}').json()
-        route_dict = routes[route]
-        route_dict.clear()
-        stop_list = stops_for_route["data"]["entry"]["stopIds"]
-        print(stops_for_route["data"]["entry"])
-        for stop_id in stop_list:
-            print(stop_id)
-            stop_name = stop_id_to_name['40_' + stop_id]
-            print(stop_name)
-            id_list = route_dict.get(stop_name, [])
-            id_list.append(stop_id)
-            route_dict[stop_name] = id_list
-        time.sleep(0.1)
-
-    print(route_dict)
-    
-    # get routes metadata
-    routes_file = archive.open('routes.txt')
-    tracked_route_ids = routes.keys()
-    route_metadata.clear()
-    for line in routes_file.readlines():
-        contents = line.decode('utf-8').split(',')
-        agency_id = contents[0]
-        route_id = contents[1]
-        combined_id = f'{agency_id}_{route_id}'
-
-        if combined_id in tracked_route_ids:
-            short_name = contents[2]
-            long_name = contents[3]
-            desc = contents[5]
-            color = contents[7]
-            text_color = contents[8].strip()
-
-            route_metadata[combined_id] = {
-                'short_name': short_name,
-                'long_name': long_name,
-                'desc': desc,
-                'color': color,
-                'text_color': text_color
-            }
-    print(route_metadata)
-    archive.close()
-
 def load_stop_names():
     route_id = "40_100479" # 1 line
     url = "https://api.pugetsound.onebusaway.org/api/where/stops-for-route/" + route_id + ".json?key=" + secret.api_key
     print(url)
     data = requests.get(f'{url}').json()
+
+    # get direction of stops
+    stop_direction = data["data"]["entry"]["stopGroupings"][0]["stopGroups"][0]["stopIds"]
+    print(stop_direction)
+
+    # get mapping of stops to IDs
     stops = data["data"]["references"]["stops"]
     stop_id_to_name = np.empty((len(stops), 2), dtype=object)
     i = 0
     for stop in stops:
         stop_id_to_name[i, 0] = '40_' + stop["id"]
         stop_id_to_name[i, 1] = stop["name"]
-        print(stop["id"])
-        print(stop["name"])
-        print(" ")
+        # print(stop["id"])
+        # print(stop["name"])
+        # print(" ")
         i += 1
-    print(stop_id_to_name)    
+    # print(stop_id_to_name)    
 
 def get_beacon_hill_stop():
     # agency ID for one line: 40
@@ -147,31 +94,13 @@ def get_beacon_hill_stop():
                 print(services["numberOfStopsAway"])
                 # TODO: figure out north and south
 
-@server.route('/routes')
-def get_routes():
-    #if not request.headers.get('User-Agent').startswith('GodotEngine'): return Response(status=400)
-    return route_metadata
+def get_stop_direction(stop_id):
+    polarizing_stop = "Beacon Hill" # TODO: get Beacon Hill stop value
+    stop_ids_numbered = np.loadtxt("stop_order.txt")
 
-@server.route('/stops/<route>')
-def get_stops(route):
-    #if not request.headers.get('User-Agent').startswith('GodotEngine'): return Response(status=400)
-    if not route in routes: return Response("The specified route is not tracked on the server", status=400)
-    return routes[route]
-
-@server.route('/arrivals/<route>')
-def get_arrivals(route):
-    #if not request.headers.get('User-Agent').startswith('GodotEngine'): return Response(status=400)
-    if not route in routes: return Response("The specified route is not tracked on the server", status=400)
-    stop = request.args.get('stop') or request.data.decode()
-    if not stop in routes[route]: return Response("The specified stop name does not exist on the route", status=400)
-
-    arrivals = []
-    for stop_id in routes[route][stop]:
-        response = make_request(f'https://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/{stop_id}.json?key={secret.api_key}&minutesAfter=90')
-        if response and response['code'] and response['code'] == 200:
-            arrivals += response['data']['entry']['arrivalsAndDepartures']
-        time.sleep(0.1)
-    return arrivals
+    for stop in stop_ids_numbered:
+        if stop_id == stop[0]:
+            return stop[2] > polarizing_stop # TODO: figure out logic
 
 load_stop_names()
 # get_beacon_hill_stop()
