@@ -61,17 +61,27 @@ def load_stop_names():
     print(stop_direction)
 
     # get mapping of stops to IDs
+    # fuck it we brute force
     stops = data["data"]["references"]["stops"]
-    stop_id_to_name = np.empty((len(stops), 2), dtype=object)
+    stop_id_to_name = np.empty((len(stops), 3), dtype=object)
     i = 0
-    for stop in stops:
-        stop_id_to_name[i, 0] = '40_' + stop["id"]
-        stop_id_to_name[i, 1] = stop["name"]
-        # print(stop["id"])
-        # print(stop["name"])
-        # print(" ")
-        i += 1
-    # print(stop_id_to_name)    
+    for north_to_south in stop_direction:
+        print(north_to_south)
+        for stop in stops:
+            if stop["id"] == north_to_south:
+                stop_name = stop["name"]
+                for stop in stops:
+                    if stop["name"] == stop_name:
+                        # print(stop["name"])
+                        stop_id_to_name[i, 0] = stop["id"]
+                        stop_id_to_name[i, 1] = stop["name"]
+                        stop_id_to_name[i, 2] = i
+                        # print(stop["id"])
+                        # print(" ")
+                        i += 1
+                        # this will overflow because the sorted list's has 2 extra elements
+                        # blame SoundTransit
+        # print(stop_id_to_name)    
 
 def get_beacon_hill_stop():
     # agency ID for one line: 40
@@ -96,14 +106,14 @@ def get_beacon_hill_stop():
 
 def get_stop_direction(stop_id):
     polarizing_stop = "Beacon Hill" # TODO: get Beacon Hill stop value
-    stop_ids_numbered = np.loadtxt("stop_order.txt")
+    stop_ids_numbered = np.loadtxt("ordered_stops.txt")
 
     for stop in stop_ids_numbered:
         if stop_id == stop[0]:
             return stop[2] > polarizing_stop # TODO: figure out logic
 
-load_stop_names()
-# get_beacon_hill_stop()
+# load_stop_names()
+get_beacon_hill_stop()
 
 # scheduler.add_job(update_gtfs, trigger='interval', days=1, id='update_gtfs', next_run_time=datetime.now())
 # scheduler.start()
