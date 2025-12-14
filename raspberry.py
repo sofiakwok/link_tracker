@@ -56,7 +56,7 @@ def load_stop_names():
     print(url)
     data = requests.get(f'{url}').json()
 
-    # get direction of stops
+    # get stops sorted by direction (North to South)
     stop_direction = data["data"]["entry"]["stopGroupings"][0]["stopGroups"][0]["stopIds"]
     print(stop_direction)
 
@@ -72,46 +72,46 @@ def load_stop_names():
                 stop_name = stop["name"]
                 for stop in stops:
                     if stop["name"] == stop_name:
-                        # print(stop["name"])
                         stop_id_to_name[i, 0] = stop["id"]
                         stop_id_to_name[i, 1] = stop["name"]
                         stop_id_to_name[i, 2] = i
-                        # print(stop["id"])
-                        # print(" ")
                         i += 1
-                        # this will overflow because the sorted list's has 2 extra elements
+                        # this will overflow because the sorted list has 2 extra elements
                         # blame SoundTransit
         # print(stop_id_to_name)    
 
 def get_beacon_hill_stop():
     # agency ID for one line: 40
     # 1 line ID: 40_100479
+    # incredibly goofy setup in the API where the north and south trains have diff stop names
     stop_ids = ["40_99240", '40_C19', '40_99121']
     for stop_id in stop_ids:
-        print(stop_id)
+        # print(stop_id)
         url = "https://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/" + stop_id + ".json?key=" + secret.api_key
-        print(url)
+        # print(url)
         data = requests.get(f'{url}').json()
         current_time = int(data["currentTime"])
         incoming = data["data"]["entry"]["arrivalsAndDepartures"]
         for services in incoming:
-            # print(services["routeShortName"])
             if services["routeShortName"] == "1 Line":
-                # print(services["numberOfStopsAway"])
                 if services["predicted"] and services["departureEnabled"]:
                     time_to_go = (int(services["predictedArrivalTime"]) - current_time) / 1000 / 60
-                    print("time to go (min): " + str(int(time_to_go)))
-                    print("closest stop: " + str(services["tripStatus"]["closestStop"]))
-                    print("stops away: " + str(services["numberOfStopsAway"]))
-                    
-                    # TODO: figure out north and south
-                    direction = get_stop_direction(stop_id=services["tripStatus"]["closestStop"])
-                    print("direction: " + str(direction))
+                    if time_to_go > 0:
+                        print("time to go (min): " + str(int(time_to_go)))
+                        print("closest stop: " + str(services["tripStatus"]["closestStop"]))
+                        print("stops away: " + str(services["numberOfStopsAway"]))
+                        
+                        # get train direction
+                        # TRUE = going north
+                        # FALSE = going south
+                        direction = get_stop_direction(stop_id=services["tripStatus"]["closestStop"])
+                        print("direction: " + str(direction))
 
 def get_stop_direction(stop_id):
     # get stop value
     polarizing_stop = 'Beacon Hill'
     stop_ids_numbered = np.loadtxt("ordered_stops.txt", delimiter=",", dtype=str)
+
     # strip leading and trailing characters for each value
     # stupid bug
     stop_ids_map = np.empty(np.shape(stop_ids_numbered), dtype=object)
@@ -119,27 +119,19 @@ def get_stop_direction(stop_id):
         stop_ids_map[i, 0] = stop_ids_numbered[i, 0].strip("' ")
         stop_ids_map[i, 1] = stop_ids_numbered[i, 1].strip("' ")
         stop_ids_map[i, 2] = stop_ids_numbered[i, 2].strip("' ")
+
     # finding stop val range for polarizing stop
     start_val = 0
-    stop_val = 1
     for stop in stop_ids_map:
         if stop[1] == polarizing_stop:
-            stop_index = int(stop[2])
-            if stop_val <= start_val:
-                stop_val = stop_index
-            else: 
-                start_val = stop_index
-    print(start_val)
-    print(stop_val)
+            start_val = int(stop[2])
+            break
 
     # get whether train is coming from north or south
-    print(stop_id)
     for stop in stop_ids_map:
-        # print(stop)
-        # print(stop[0])
         if stop_id == stop[0]:
             # if this is TRUE then the train is going north
-            return int(stop[2]) > start_val # TODO: figure out logic
+            return int(stop[2]) > start_val
 
 # load_stop_names()
 get_beacon_hill_stop()
