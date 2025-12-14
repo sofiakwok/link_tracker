@@ -2,6 +2,7 @@
 # Responses from the OBA API are cached for 30 seconds
 
 import os
+import numpy as np
 import secret
 import requests
 import time
@@ -109,8 +110,21 @@ def update_gtfs():
     archive.close()
 
 def load_stop_names():
-    # TODO: get all stop names
-    pass
+    route_id = "40_100479" # 1 line
+    url = "https://api.pugetsound.onebusaway.org/api/where/stops-for-route/" + route_id + ".json?key=" + secret.api_key
+    print(url)
+    data = requests.get(f'{url}').json()
+    stops = data["data"]["references"]["stops"]
+    stop_id_to_name = np.empty((len(stops), 2), dtype=object)
+    i = 0
+    for stop in stops:
+        stop_id_to_name[i, 0] = '40_' + stop["id"]
+        stop_id_to_name[i, 1] = stop["name"]
+        print(stop["id"])
+        print(stop["name"])
+        print(" ")
+        i += 1
+    print(stop_id_to_name)    
 
 def get_beacon_hill_stop():
     # agency ID for one line: 40
@@ -119,14 +133,15 @@ def get_beacon_hill_stop():
     url = "https://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/" + stop_id + ".json?key=" + secret.api_key
     print(url)
     data = requests.get(f'{url}').json()
-    current_time = data["currentTime"]
+    current_time = int(data["currentTime"])
     incoming = data["data"]["entry"]["arrivalsAndDepartures"]
     for services in incoming:
         print(services["routeShortName"])
         if services["routeShortName"] == "1 Line":
-            if services["predicted"] == True:
+            print(services["numberOfStopsAway"])
+            if services["predicted"] and services["departureEnabled"]:
                 print("")
-                time_to_go = (int(services["predictedArrivalTime"]) - int(current_time)) / 1000 / 60
+                time_to_go = (int(services["predictedArrivalTime"]) - current_time) / 1000 / 60
                 print(int(time_to_go))
                 print(services["tripStatus"]["closestStop"])
                 print(services["numberOfStopsAway"])
@@ -158,7 +173,8 @@ def get_arrivals(route):
         time.sleep(0.1)
     return arrivals
 
-get_beacon_hill_stop()
+load_stop_names()
+# get_beacon_hill_stop()
 
 # scheduler.add_job(update_gtfs, trigger='interval', days=1, id='update_gtfs', next_run_time=datetime.now())
 # scheduler.start()
