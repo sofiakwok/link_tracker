@@ -1,54 +1,11 @@
 # Link arrivals board OneBusAway API proxy server
 # Responses from the OBA API are cached for 30 seconds
 
-import os
 import numpy as np
 import secret
 import requests
 import time
 from datetime import datetime
-from io import BytesIO
-from zipfile import ZipFile
-from flask import Flask, Response, request
-from flask_cors import CORS
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
-from apscheduler.schedulers.background import BackgroundScheduler
-from waitress import serve
-
-server = Flask(__name__)
-CORS(server)
-limiter = Limiter(
-    key_func=get_remote_address,
-    app=server,
-    default_limits=['600 per hour', '1 per second'],
-)
-
-scheduler = BackgroundScheduler()
-
-gtfs_url = 'https://www.soundtransit.org/GTFS-rail/40_gtfs.zip'
-routes = {
-    '1_100224': {}, # 1 line
-    # '40_2LINE': {},
-    # '40_TLINE': {},
-    # '40_SNDR_TL': {}, # Sounder S line (seattle - tacoma dome/lakewood)
-    # '40_SNDR_EV': {} # Sounder N line (seattle - everett)
-}
-route_metadata = {}
-cache = {}
-
-def make_request(url):
-    cached_request = cache.get(url, [None, 0])
-    current_time = int(time.time())
-    if (current_time - cached_request[1] < 30):
-        return cached_request[0]
-
-    new_request = requests.get(url)
-    cached_request[0] = new_request.json()
-    cached_request[1] = current_time
-    cache[url] = cached_request
-
-    return cached_request[0]
 
 def load_stop_names():
     route_id = "40_100479" # 1 line
@@ -97,6 +54,8 @@ def get_beacon_hill_stop():
                 if services["predicted"] and services["departureEnabled"]:
                     time_to_go = (int(services["predictedArrivalTime"]) - current_time) / 1000 / 60
                     if time_to_go > 0:
+                        print("")
+                        print("predicted: " + str(services["predicted"]))
                         print("time to go (min): " + str(int(time_to_go)))
                         print("closest stop: " + str(services["tripStatus"]["closestStop"]))
                         print("stops away: " + str(services["numberOfStopsAway"]))

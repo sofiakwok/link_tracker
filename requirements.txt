@@ -1,5 +1,1 @@
-apscheduler
-flask
-Flask-Limiter
-flask-cors
-waitress
+numpy
