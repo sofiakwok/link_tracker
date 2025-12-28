@@ -93,8 +93,6 @@ def get_stop_direction(stop_id):
             return int(stop[2]) > start_val
 
 # load_stop_names()
-get_beacon_hill_stop()
-
-# scheduler.add_job(update_gtfs, trigger='interval', days=1, id='update_gtfs', next_run_time=datetime.now())
-# scheduler.start()
-#serve(server, host='0.0.0.0', port=2053) ONLY UNCOMMENT if you're not using another WSGI server; only http will work
+while True:
+    get_beacon_hill_stop()
+    time.sleep(30)
