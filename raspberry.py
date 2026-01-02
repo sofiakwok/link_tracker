@@ -51,13 +51,14 @@ def get_beacon_hill_stop():
         incoming = data["data"]["entry"]["arrivalsAndDepartures"]
         for services in incoming:
             if services["routeShortName"] == "1 Line":
-                if services["predicted"] and services["departureEnabled"]:
+                if services["departureEnabled"]: # services["predicted"] is false right now?
                     time_to_go = (int(services["predictedArrivalTime"]) - current_time) / 1000 / 60
-                    if time_to_go > 0:
+                    stops_away = int(services["numberOfStopsAway"])
+                    if stops_away > 0:
                         print("")
                         print("predicted: " + str(services["predicted"]))
                         print("time to go (min): " + str(int(time_to_go)))
-                        print("closest stop: " + str(services["tripStatus"]["closestStop"]))
+                        print("closest stop: " + str(get_stop_name(services["tripStatus"]["closestStop"])))
                         print("stops away: " + str(services["numberOfStopsAway"]))
                         
                         # get train direction
@@ -91,8 +92,18 @@ def get_stop_direction(stop_id):
         if stop_id == stop[0]:
             # if this is TRUE then the train is going north
             return int(stop[2]) > start_val
+        
+def get_stop_name(stop_id):
+    stop_ids_numbered = np.loadtxt("ordered_stops.txt", delimiter=",", dtype=str)
+    stop_ids_map = np.empty(np.shape(stop_ids_numbered), dtype=object)
+    for i in range(len(stop_ids_numbered)):
+        stop_ids_map[i, 0] = stop_ids_numbered[i, 0].strip("' ")
+        stop_ids_map[i, 1] = stop_ids_numbered[i, 1].strip("' ")
+        stop_ids_map[i, 2] = stop_ids_numbered[i, 2].strip("' ")
+
+    for stop in stop_ids_map:
+        if stop_id == stop[0]:
+            return stop[1]
 
 # load_stop_names()
-while True:
-    get_beacon_hill_stop()
-    time.sleep(30)
+get_beacon_hill_stop()
