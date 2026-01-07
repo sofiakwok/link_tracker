@@ -1,0 +1,104 @@
+40_N23,Lynnwood City Center,0,0
+40_N23-T1,Lynnwood City Center,1,0
+40_N23,Lynnwood City Center,2,0
+40_N23-T2,Lynnwood City Center,3,0
+40_N19,Mountlake Terrace,4,1
+40_N19-T1,Mountlake Terrace,5,1
+40_N19,Mountlake Terrace,6,1
+40_N19-T2,Mountlake Terrace,7,1
+40_N17,Shoreline North/185th,8,2
+40_N17-T1,Shoreline North/185th,9,2
+40_N17,Shoreline North/185th,10,2
+40_N17-T2,Shoreline North/185th,11,2
+40_N15,Shoreline South/148th,12,3
+40_N15-T1,Shoreline South/148th,13,3
+40_N15,Shoreline South/148th,14,3
+40_N15-T2,Shoreline South/148th,15,3
+40_N11,Northgate,16,4
+40_990005,Northgate,17,4
+40_N11,Northgate,18,4
+40_990006,Northgate,19,4
+40_N09,Roosevelt,20,5
+40_990003,Roosevelt,21,5
+40_N09,Roosevelt,22,5
+40_990004,Roosevelt,23,5
+40_N07,U District,24,6
+40_990001,U District,25,6
+40_N07,U District,26,6
+40_990002,U District,27,6
+40_N05,Univ of Washington,28,7
+40_99604,Univ of Washington,29,7
+40_N05,Univ of Washington,30,7
+40_99605,Univ of Washington,31,7
+40_N03,Capitol Hill,32,8
+40_99603,Capitol Hill,33,8
+40_N03,Capitol Hill,34,8
+40_99610,Capitol Hill,35,8
+40_C03,Westlake,36,9
+40_1108,Westlake,37,9
+40_C03,Westlake,38,9
+40_1121,Westlake,39,9
+40_C05,Symphony,40,10
+40_455,Symphony,41,10
+40_C05,Symphony,42,10
+40_565,Symphony,43,10
+40_C07,Pioneer Square,44,11
+40_501,Pioneer Square,45,11
+40_C07,Pioneer Square,46,11
+40_532,Pioneer Square,47,11
+40_C09,Int'l Dist/Chinatown,48,12
+40_621,Int'l Dist/Chinatown,49,12
+40_C09,Int'l Dist/Chinatown,50,12
+40_623,Int'l Dist/Chinatown,51,12
+40_C13,Stadium,52,13
+40_99101,Stadium,53,13
+40_C13,Stadium,54,13
+40_99260,Stadium,55,13
+40_C15,SODO,56,14
+40_99111,SODO,57,14
+40_C15,SODO,58,14
+40_99256,SODO,59,14
+40_C19,Beacon Hill,60,15
+40_99121,Beacon Hill,61,15
+40_C19,Beacon Hill,62,15
+40_99240,Beacon Hill,63,15
+40_C23,Mount Baker,64,16
+40_55860,Mount Baker,65,16
+40_C23,Mount Baker,66,16
+40_55949,Mount Baker,67,16
+40_C25,Columbia City,68,17
+40_55778,Columbia City,69,17
+40_C25,Columbia City,70,17
+40_56039,Columbia City,71,17
+40_C27,Othello,72,18
+40_55656,Othello,73,18
+40_C27,Othello,74,18
+40_56159,Othello,75,18
+40_C29,Rainier Beach,76,19
+40_55578,Rainier Beach,77,19
+40_C29,Rainier Beach,78,19
+40_56173,Rainier Beach,79,19
+40_C35,Tukwila Int'l Blvd,80,20
+40_99900,Tukwila Int'l Blvd,81,20
+40_C35,Tukwila Int'l Blvd,82,20
+40_99905,Tukwila Int'l Blvd,83,20
+40_C37,SeaTac/Airport,84,21
+40_99903,SeaTac/Airport,85,21
+40_C37,SeaTac/Airport,86,21
+40_99904,SeaTac/Airport,87,21
+40_S01,Angle Lake,88,22
+40_99913,Angle Lake,89,22
+40_S01,Angle Lake,90,22
+40_99914,Angle Lake,91,22
+40_S03,Kent Des Moines,92,23
+40_S03-T1,Kent Des Moines,93,23
+40_S03,Kent Des Moines,94,23
+40_S03-T2,Kent Des Moines,95,23
+40_S05,Star Lake,96,24
+40_S05-T1,Star Lake,97,24
+40_S05,Star Lake,98,24
+40_S05-T2,Star Lake,99,24
+40_S07,Federal Way Downtown,100,25
+40_S07-T1,Federal Way Downtown,101,25
+40_S07,Federal Way Downtown,102,25
+40_S07-T2,Federal Way Downtown,103,25
