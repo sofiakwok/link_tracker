@@ -7,9 +7,6 @@
 # Adafruit Blinka to support CircuitPython libraries. CircuitPython does
 # not support PIL/pillow (python imaging library)!
 
-import subprocess
-import time
-
 import busio
 import digitalio
 from board import D4, SCL, SDA
@@ -57,7 +54,6 @@ class Graphics():
         # Move left to right keeping track of the current x position for drawing shapes.
         self.x = 0
 
-
         # Load default font.
         self.font = ImageFont.load_default()
 
@@ -66,17 +62,31 @@ class Graphics():
         # Some other nice fonts to try: http://www.dafont.com/bitmap.php
         # font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 9)
 
-    def display_stops(self, stop_data):
+    def display_stops(self, train_data):
+
+        # assumes stop_data is passed in in the following format:
+        # [[predicted, time to go, closest stop, stops away, direction]] 
+        # get the two closest trains going North/South
+        stop_data = [0, 0, 0, 0]
+        i_north = 0
+        i_south = 2
+        for train in train_data:
+            if train[4]:
+                if i_north < 2:
+                    stop_data[i_north] = train[1]
+                    i_north += 1
+            else:
+                if i_south < 4:
+                    stop_data[i_south] = train[1]
+                    i_south += 1
 
         # Draw a black filled box to clear the image.
         self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
 
-        # Write four lines of text.
-
         # Assumes that we only care about the two closest trains going North/South
-
-        self.draw.text((self.x, self.top + 0), "Angle Lake: " + stop_data[0] + " min", font=self.font, fill=255)   
-        self.draw.text((self.x, self.top + 8), "Angle Lake: " + stop_data[1] + " min", font=self.font, fill=255)   
+        # That's also all I can fit on the display
+        self.draw.text((self.x, self.top + 0), "Lynwood City Center: " + stop_data[0] + " min", font=self.font, fill=255)   
+        self.draw.text((self.x, self.top + 8), "Lynwood City Center: " + stop_data[1] + " min", font=self.font, fill=255)   
         self.draw.text((self.x, self.top + 16), "Federal Way: " + stop_data[2] + " min", font=self.font, fill=255)   
         self.draw.text((self.x, self.top + 25), "Federal Way: " + stop_data[3] + " min", font=self.font, fill=255)   
 
