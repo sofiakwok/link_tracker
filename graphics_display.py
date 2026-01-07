@@ -16,7 +16,6 @@ import adafruit_ssd1305
 
 class Graphics():
     def __init__(self):
-        pass
 
         # Define the Reset Pin
         oled_reset = digitalio.DigitalInOut(D4)
@@ -33,7 +32,6 @@ class Graphics():
         self.disp.fill(0)
         self.disp.show()
 
-
         # Create blank image for drawing.
         # Make sure to create image with mode '1' for 1-bit color.
         self.width = self.disp.width
@@ -42,9 +40,6 @@ class Graphics():
 
         # Get drawing object to draw on image.
         self.draw = ImageDraw.Draw(image)
-
-        # Draw a black filled box to clear the image.
-        self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
 
         # Draw some shapes.
         # First define some constants to allow easy resizing of shapes.
