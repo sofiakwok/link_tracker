@@ -34,9 +34,11 @@ def get_beacon_hill_stop():
                         print("stops away: " + str(services["numberOfStopsAway"]))
                         
                         # get train direction
-                        # TRUE = going north
-                        # FALSE = going south
-                        direction = get_stop_direction(stop_id=services["tripStatus"]["closestStop"])
+                        dir = get_stop_direction(stop_id=services["tripStatus"]["closestStop"])
+                        if dir:
+                            direction = "North"
+                        else:
+                            direction = "South"
                         print("direction: " + str(direction))
 
 def get_stop_direction(stop_id):
