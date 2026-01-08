@@ -44,7 +44,7 @@ def get_beacon_hill_stop():
 def get_stop_direction(stop_id):
     # get stop value
     polarizing_stop = 'Beacon Hill'
-    stop_ids_map = np.loadtxt("stops.txt", delimiter=",", dtype=str)
+    stop_ids_map = np.loadtxt("ordered_stops.txt", delimiter=",", dtype=str)
 
     # finding stop val range for polarizing stop
     start_val = 0
@@ -60,7 +60,7 @@ def get_stop_direction(stop_id):
             return int(stop[2]) > start_val
         
 def get_stop_name(stop_id):
-    stop_ids_numbered = np.loadtxt("stops.txt", delimiter=",", dtype=str)
+    stop_ids_numbered = np.loadtxt("ordered_stops.txt", delimiter=",", dtype=str)
 
     for stop in stop_ids_numbered:
         if stop_id == stop[0]:
