@@ -1,0 +1,78 @@
+40_N23,Lynnwood City Center,0,0
+40_N23-T1,Lynnwood City Center,1,0
+40_N23-T2,Lynnwood City Center,2,0
+40_N19,Mountlake Terrace,3,1
+40_N19-T1,Mountlake Terrace,4,1
+40_N19-T2,Mountlake Terrace,5,1
+40_N17,Shoreline North/185th,6,2
+40_N17-T1,Shoreline North/185th,7,2
+40_N17-T2,Shoreline North/185th,8,2
+40_N15,Shoreline South/148th,9,3
+40_N15-T1,Shoreline South/148th,10,3
+40_N15-T2,Shoreline South/148th,11,3
+40_N11,Northgate,12,4
+40_990005,Northgate,13,4
+40_990006,Northgate,14,4
+40_N09,Roosevelt,15,5
+40_990003,Roosevelt,16,5
+40_990004,Roosevelt,17,5
+40_N07,U District,18,6
+40_990001,U District,19,6
+40_990002,U District,20,6
+40_N05,Univ of Washington,21,7
+40_99604,Univ of Washington,22,7
+40_99605,Univ of Washington,23,7
+40_N03,Capitol Hill,24,8
+40_99603,Capitol Hill,25,8
+40_99610,Capitol Hill,26,8
+40_C03,Westlake,27,9
+40_1108,Westlake,28,9
+40_1121,Westlake,29,9
+40_C05,Symphony,30,10
+40_455,Symphony,31,10
+40_565,Symphony,32,10
+40_C07,Pioneer Square,33,11
+40_501,Pioneer Square,34,11
+40_532,Pioneer Square,35,11
+40_C09,Int'l Dist/Chinatown,36,12
+40_621,Int'l Dist/Chinatown,37,12
+40_623,Int'l Dist/Chinatown,38,12
+40_C13,Stadium,39,13
+40_99101,Stadium,40,13
+40_99260,Stadium,41,13
+40_C15,SODO,42,14
+40_99111,SODO,43,14
+40_99256,SODO,44,14
+40_C19,Beacon Hill,45,15
+40_99121,Beacon Hill,46,15
+40_99240,Beacon Hill,47,15
+40_C23,Mount Baker,48,16
+40_55860,Mount Baker,49,16
+40_55949,Mount Baker,50,16
+40_C25,Columbia City,51,17
+40_55778,Columbia City,52,17
+40_56039,Columbia City,53,17
+40_C27,Othello,54,18
+40_55656,Othello,55,18
+40_56159,Othello,56,18
+40_C29,Rainier Beach,57,19
+40_55578,Rainier Beach,58,19
+40_56173,Rainier Beach,59,19
+40_C35,Tukwila Int'l Blvd,60,20
+40_99900,Tukwila Int'l Blvd,61,20
+40_99905,Tukwila Int'l Blvd,62,20
+40_C37,SeaTac/Airport,63,21
+40_99903,SeaTac/Airport,64,21
+40_99904,SeaTac/Airport,65,21
+40_S01,Angle Lake,66,22
+40_99913,Angle Lake,67,22
+40_99914,Angle Lake,68,22
+40_S03,Kent Des Moines,69,23
+40_S03-T1,Kent Des Moines,70,23
+40_S03-T2,Kent Des Moines,71,23
+40_S05,Star Lake,72,24
+40_S05-T1,Star Lake,73,24
+40_S05-T2,Star Lake,74,24
+40_S07,Federal Way Downtown,75,25
+40_S07-T1,Federal Way Downtown,76,25
+40_S07-T2,Federal Way Downtown,77,25
