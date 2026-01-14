@@ -10,9 +10,8 @@ class LEDs():
     def __init__(self):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(4, GPIO.OUT)
-        self.state = True
-
+        for i in range(25):
+            GPIO.setup(i, GPIO.OUT)
         self.leds_on = np.zeros(25)
 
     def set_led_on(self, stops_on):
@@ -22,7 +21,9 @@ class LEDs():
             self.leds_on[i] = 0
 
         time.sleep(1)
-                
+
         for stop in stops_on:
             GPIO.output(stop,True)
             self.leds_on[stop] = 1
+
+        time.sleep(1) # make it blink?
