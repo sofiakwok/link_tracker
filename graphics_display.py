@@ -57,6 +57,14 @@ class Graphics():
         # Some other nice fonts to try: http://www.dafont.com/bitmap.php
         self.font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 11)
 
+    def clear_screen(self):
+        # Draw a black filled box to clear the image.
+        self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
+        
+        # Display image.
+        self.disp.image(self.image)
+        self.disp.show()
+    
     def display_stops(self, train_data):
 
         # assumes stop_data is passed in in the following format:

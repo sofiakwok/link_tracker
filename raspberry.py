@@ -76,3 +76,6 @@ graphics = Graphics()
 # load_stop_names()
 stop_data = get_beacon_hill_stop()
 graphics.display_stops(stop_data)
+
+time.sleep(10)
+graphics.clear_screen()
