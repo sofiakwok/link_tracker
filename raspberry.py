@@ -72,13 +72,13 @@ def get_stop_name(stop_id):
         if stop_id == stop[0]:
             return stop[1]
         
-# getting it to update every 50 seconds. 
+# getting it to update every 30 seconds. 
 graphics = Graphics()
 # load_stop_names()
 while True:
     stop_data = get_beacon_hill_stop()
     graphics.display_stops(stop_data)
 
-    time.sleep(50)
+    time.sleep(30)
     graphics.clear_screen()
     time.sleep(1)
