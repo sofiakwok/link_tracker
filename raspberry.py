@@ -6,6 +6,7 @@ import secret
 import requests
 import time
 from datetime import datetime
+from graphics_display import Graphics
 
 # yes i know this should probably be in a class
 
@@ -14,6 +15,7 @@ def get_beacon_hill_stop():
     # 1 line ID: 40_100479
     # incredibly goofy setup in the API where the north and south trains have diff stop names
     stop_ids = ["40_99240", '40_C19', '40_99121']
+    stop_data = []
     for stop_id in stop_ids:
         # print(stop_id)
         url = "https://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/" + stop_id + ".json?key=" + secret.api_key
@@ -30,7 +32,8 @@ def get_beacon_hill_stop():
                         print("")
                         print("predicted: " + str(services["predicted"]))
                         print("time to go (min): " + str(int(time_to_go)))
-                        print("closest stop: " + str(get_stop_name(services["tripStatus"]["closestStop"])))
+                        closest_stop = str(get_stop_name(services["tripStatus"]["closestStop"]))
+                        print("closest stop: " + closest_stop)
                         print("stops away: " + str(services["numberOfStopsAway"]))
                         
                         # get train direction
@@ -40,6 +43,9 @@ def get_beacon_hill_stop():
                         else:
                             direction = "South"
                         print("direction: " + str(direction))
+                        stop_data.append([0, int(time_to_go), closest_stop, int(services["numberOfStopsAway"]), dir])
+    
+    return stop_data
 
 def get_stop_direction(stop_id):
     # get stop value
@@ -66,5 +72,7 @@ def get_stop_name(stop_id):
         if stop_id == stop[0]:
             return stop[1]
         
+graphics = Graphics()
 # load_stop_names()
-get_beacon_hill_stop()
+stop_data = get_beacon_hill_stop()
+graphics.display_stops(stop_data)
