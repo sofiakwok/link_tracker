@@ -49,13 +49,10 @@ class Graphics():
         # Move left to right keeping track of the current x position for drawing shapes.
         self.x = 0
 
-        # Load default font.
-        #self.font = ImageFont.load_default()
-
         # Alternatively load a TTF font.  Make sure the .ttf font file is in the
         # same directory as the python script!
         # Some other nice fonts to try: http://www.dafont.com/bitmap.php
-        self.font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 11)
+        self.font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 10)
 
     def clear_screen(self):
         # Draw a black filled box to clear the image.
@@ -89,7 +86,7 @@ class Graphics():
         # Assumes that we only care about the two closest trains going North/South
         # That's also all I can fit on the display
         self.draw.text((self.x, self.top + 0), "Lynnwood: " + str(stop_data[0]) + ", " + str(stop_data[1]) + " min", font=self.font, fill=255)   
-        self.draw.text((self.x, self.top + 16), "Federal Way: " + str(stop_data[2]) + ", " + str(stop_data[1]) + " min", font=self.font, fill=255)   
+        self.draw.text((self.x, self.top + 16), "Federal Way: " + str(stop_data[2]) + ", " + str(stop_data[3]) + " min", font=self.font, fill=255)   
 
         # Display image.
         self.disp.image(self.image)
