@@ -73,10 +73,10 @@ def get_stop_name(stop_id):
         if stop_id == stop[0]:
             return stop[1]
         
-# getting it to update every 30 seconds.
+        
+# updating every 30 seconds--higher frequency is blocked by API
 data = TransitData()
 graphics = Graphics()
-# load_stop_names()
 while True:
     stop_data = data.get_beacon_hill_stop()
     graphics.display_stops(stop_data)
