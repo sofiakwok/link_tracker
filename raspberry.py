@@ -7,6 +7,7 @@ import requests
 import time
 from datetime import datetime
 from graphics_display import Graphics
+from prox_sensor import ProximitySensor
 
 class TransitData():
     def __init__(self):
@@ -77,10 +78,21 @@ def get_stop_name(stop_id):
 # updating every 30 seconds--higher frequency is blocked by API
 data = TransitData()
 graphics = Graphics()
+prox = ProximitySensor()
+start_time = time.time()
+prox_trigger = False
 while True:
-    stop_data = data.get_beacon_hill_stop()
-    graphics.display_stops(stop_data)
+    # if prox sensor is triggered, show link data for 30 minutes
+    
+    prox_trigger = prox.get_trigger()
+    if prox_trigger: 
+        start_time = time.time()
+    
+    current_time = time.time()
+    if np.abs(start_time - current_time) < 1800:
+        stop_data = data.get_beacon_hill_stop()
+        graphics.display_stops(stop_data)
 
-    time.sleep(30)
-    graphics.clear_screen()
-    time.sleep(1)
+        time.sleep(30)
+        graphics.clear_screen()
+        time.sleep(1)
