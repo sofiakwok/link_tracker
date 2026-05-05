@@ -91,9 +91,9 @@ while True:
     # for now, display transit data from 6-11 on weekdays
     # and 10-5 on weekends
     date = pytz.utc.localize(datetime.now(datetime.timezone.utc)).astimezone(pytz.timezone('US/Pacific'))
-    if date.day() < 5 and date.hour() > 18 and date.hour() < 23:
+    if date.weekday() < 5 and date.hour() > 18 and date.hour() < 23:
         start_time = time.time()
-    elif date.day() >= 5 and date.hour() > 10 and date.hour() < 17:
+    elif date.weekday() >= 5 and date.hour() > 10 and date.hour() < 17:
         start_time = time.time()
     
     current_time = time.time()
