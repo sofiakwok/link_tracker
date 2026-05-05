@@ -8,7 +8,7 @@ import time
 from datetime import datetime
 import pytz
 from graphics_display import Graphics
-from prox_sensor import ProximitySensor
+# from prox_sensor import ProximitySensor
 
 class TransitData():
     def __init__(self):
@@ -39,7 +39,7 @@ class TransitData():
                             closest_stop = str(get_stop_name(services["tripStatus"]["closestStop"]))
                             print("closest stop: " + closest_stop)
                             print("stops away: " + str(services["numberOfStopsAway"]))
-                            
+                           
                             # get train direction
                             dir = self.get_stop_direction(stop_id=services["tripStatus"]["closestStop"])
                             if dir:
@@ -67,40 +67,45 @@ class TransitData():
             if stop_id == stop[0]:
                 # if this is TRUE then the train is going north
                 return int(stop[2]) > start_val
-        
+       
 def get_stop_name(stop_id):
     stop_ids_numbered = np.loadtxt("ordered_stops.txt", delimiter=",", dtype=str)
 
     for stop in stop_ids_numbered:
         if stop_id == stop[0]:
             return stop[1]
-        
-        
+       
+       
 # updating every 30 seconds--higher frequency is blocked by API
 data = TransitData()
 graphics = Graphics()
-prox = ProximitySensor()
+# prox = ProximitySensor()
 start_time = time.time()
 prox_trigger = False
 while True:
     # if prox sensor is triggered, show link data for 30 minutes
-    prox_trigger = prox.get_trigger()
-    if prox_trigger: 
-        start_time = time.time()
+    # prox_trigger = prox.get_trigger()
+    # if prox_trigger:
+    #    start_time = time.time()
 
-    # for now, display transit data from 6-11 on weekdays
-    # and 10-5 on weekends
-    date = pytz.utc.localize(datetime.now(datetime.timezone.utc)).astimezone(pytz.timezone('US/Pacific'))
-    if date.weekday() < 5 and date.hour() > 18 and date.hour() < 23:
-        start_time = time.time()
-    elif date.weekday() >= 5 and date.hour() > 10 and date.hour() < 17:
-        start_time = time.time()
-    
+    # for now, display transit data from 7-11 on weekdays
+    # and 10-3 on weekends
+    date = datetime.now()
+    if date.weekday() < 5:
+        if date.hour > 19 and date.hour < 23:
+            start_time = time.time()
+    elif date.weekday() >= 5:
+        if date.hour > 10 and date.hour < 15:
+            start_time = time.time()
+   
     current_time = time.time()
     if np.abs(start_time - current_time) < 1800:
         stop_data = data.get_beacon_hill_stop()
         graphics.display_stops(stop_data)
 
         time.sleep(30)
+        graphics.clear_screen()
+        time.sleep(1)
+    else:
         graphics.clear_screen()
         time.sleep(1)
