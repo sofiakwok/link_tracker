@@ -6,6 +6,7 @@ import secret
 import requests
 import time
 from datetime import datetime
+import pytz
 from graphics_display import Graphics
 from prox_sensor import ProximitySensor
 
@@ -83,9 +84,16 @@ start_time = time.time()
 prox_trigger = False
 while True:
     # if prox sensor is triggered, show link data for 30 minutes
-    
     prox_trigger = prox.get_trigger()
     if prox_trigger: 
+        start_time = time.time()
+
+    # for now, display transit data from 6-11 on weekdays
+    # and 10-5 on weekends
+    date = pytz.utc.localize(datetime.now(datetime.timezone.utc)).astimezone(pytz.timezone('US/Pacific'))
+    if date.day() < 5 and date.hour() > 18 and date.hour() < 23:
+        start_time = time.time()
+    elif date.day() >= 5 and date.hour() > 10 and date.hour() < 17:
         start_time = time.time()
     
     current_time = time.time()
