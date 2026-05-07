@@ -63,8 +63,36 @@ class Graphics():
         self.disp.show()
     
     def display_stops(self, train_data):
-
         # assumes stop_data is passed in in the following format:
+        # [[predicted, time to go, closest stop, stops away, direction]] 
+        # get the two closest trains going North/South
+        stop_data = [0, 0, 0, 0]
+        i_north = 0
+        i_south = 2
+        for train in train_data:
+            if train[4]:
+                if i_north < 2:
+                    stop_data[i_north] = train[3]
+                    i_north += 1
+            else:
+                if i_south < 4:
+                    stop_data[i_south] = train[3]
+                    i_south += 1
+
+        # Draw a black filled box to clear the image.
+        self.draw.rectangle((0, 0, self.width, self.height), outline=0, fill=0)
+
+        # Assumes that we only care about the two closest trains going North/South
+        # That's also all I can fit on the display
+        self.draw.text((self.x, self.top + 0), "Stops Away (N): " + str(stop_data[0]) + ", " + str(stop_data[1]) + " min", font=self.font, fill=255)   
+        self.draw.text((self.x, self.top + 16), "Stops Away (S): " + str(stop_data[2]) + ", " + str(stop_data[3]) + " min", font=self.font, fill=255)   
+
+        # Display image.
+        self.disp.image(self.image)
+        self.disp.show()
+
+    def display_times(self, train_data):
+         # assumes stop_data is passed in in the following format:
         # [[predicted, time to go, closest stop, stops away, direction]] 
         # get the two closest trains going North/South
         stop_data = [0, 0, 0, 0]

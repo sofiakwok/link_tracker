@@ -33,12 +33,12 @@ class TransitData():
                         time_to_go = (int(services["predictedArrivalTime"]) - current_time) / 1000 / 60
                         stops_away = int(services["numberOfStopsAway"])
                         if stops_away > 0:
-                            print("")
-                            print("predicted: " + str(services["predicted"]))
-                            print("time to go (min): " + str(int(time_to_go)))
+                            # print("")
+                            # print("predicted: " + str(services["predicted"]))
+                            # print("time to go (min): " + str(int(time_to_go)))
                             closest_stop = str(get_stop_name(services["tripStatus"]["closestStop"]))
-                            print("closest stop: " + closest_stop)
-                            print("stops away: " + str(services["numberOfStopsAway"]))
+                            # print("closest stop: " + closest_stop)
+                            # print("stops away: " + str(services["numberOfStopsAway"]))
                            
                             # get train direction
                             dir = self.get_stop_direction(stop_id=services["tripStatus"]["closestStop"])
@@ -46,7 +46,7 @@ class TransitData():
                                 direction = "North"
                             else:
                                 direction = "South"
-                            print("direction: " + str(direction))
+                            # print("direction: " + str(direction))
                             stop_data.append([0, int(time_to_go), closest_stop, int(services["numberOfStopsAway"]), dir])
         return stop_data
 
@@ -91,6 +91,7 @@ while True:
     # for now, display transit data from 7-11 on weekdays
     # and 10-3 on weekends
     date = datetime.now()
+    time.sleep(1)
     if date.weekday() < 5:
         if date.hour > 19 and date.hour < 23:
             start_time = time.time()
@@ -99,13 +100,9 @@ while True:
             start_time = time.time()
    
     current_time = time.time()
-    if np.abs(start_time - current_time) < 1800:
+    if np.abs(start_time - current_time) < 10:
         stop_data = data.get_beacon_hill_stop()
-        graphics.display_stops(stop_data)
+        graphics.display_times(stop_data)
 
         time.sleep(30)
         graphics.clear_screen()
-        time.sleep(1)
-    else:
-        graphics.clear_screen()
-        time.sleep(1)
