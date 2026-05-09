@@ -26,6 +26,11 @@ class TransitData():
             # print(url)
             data = requests.get(f'{url}').json()
             current_time = int(data["currentTime"])
+            # sometimes soundtransit does not return data as it should rip
+            try:
+                incoming = data["data"]["entry"]["arrivalsAndDepartures"]
+            except:
+                return 0
             incoming = data["data"]["entry"]["arrivalsAndDepartures"]
             for services in incoming:
                 if services["routeShortName"] == "1 Line":
@@ -89,7 +94,7 @@ while True:
     #    start_time = time.time()
 
     # for now, display transit data from 7-11 on weekdays
-    # and 10-3 on weekends
+    # and 10-7 on weekends
     date = datetime.now()
     time.sleep(1)
     if date.weekday() < 5:
@@ -102,7 +107,8 @@ while True:
     current_time = time.time()
     if np.abs(start_time - current_time) < 10:
         stop_data = data.get_beacon_hill_stop()
-        graphics.display_times(stop_data)
+        if len(stop_data > 1):
+            graphics.display_times(stop_data)
 
         time.sleep(30)
         graphics.clear_screen()

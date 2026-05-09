@@ -84,8 +84,8 @@ class Graphics():
 
         # Assumes that we only care about the two closest trains going North/South
         # That's also all I can fit on the display
-        self.draw.text((self.x, self.top + 0), "Stops Away (N): " + str(stop_data[0]) + ", " + str(stop_data[1]) + " min", font=self.font, fill=255)   
-        self.draw.text((self.x, self.top + 16), "Stops Away (S): " + str(stop_data[2]) + ", " + str(stop_data[3]) + " min", font=self.font, fill=255)   
+        self.draw.text((self.x, self.top + 0), "Lynnwood: " + str(stop_data[0]) + ", " + str(stop_data[1]) + " stops", font=self.font, fill=255)   
+        self.draw.text((self.x, self.top + 16), "Federal Way: " + str(stop_data[2]) + ", " + str(stop_data[3]) + " stops", font=self.font, fill=255)   
 
         # Display image.
         self.disp.image(self.image)
