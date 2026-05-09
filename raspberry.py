@@ -107,7 +107,7 @@ while True:
     current_time = time.time()
     if np.abs(start_time - current_time) < 10:
         stop_data = data.get_beacon_hill_stop()
-        if len(stop_data > 1):
+        if len(stop_data) > 1:
             graphics.display_times(stop_data)
 
         time.sleep(30)
