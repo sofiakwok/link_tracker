@@ -101,11 +101,17 @@ class Graphics():
         for train in train_data:
             if train[4]:
                 if i_north < 2:
-                    stop_data[i_north] = train[1]
+                    if train[1] > 0:
+                        stop_data[i_north] = train[1]
+                    else:
+                        stop_data[i_north] = "?"
                     i_north += 1
             else:
                 if i_south < 4:
-                    stop_data[i_south] = train[1]
+                    if train[1] > 0:
+                        stop_data[i_south] = train[1]
+                    else:
+                        stop_data[i_south] = "?"
                     i_south += 1
 
         # Draw a black filled box to clear the image.
