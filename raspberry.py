@@ -30,7 +30,7 @@ class TransitData():
             try:
                 incoming = data["data"]["entry"]["arrivalsAndDepartures"]
             except:
-                return 0
+                return [0]
             incoming = data["data"]["entry"]["arrivalsAndDepartures"]
             for services in incoming:
                 if services["routeShortName"] == "1 Line":
@@ -96,12 +96,12 @@ while True:
     # for now, display transit data from 7-11 on weekdays
     # and 10-7 on weekends
     date = datetime.now()
-    time.sleep(1)
+    time.sleep(0.1)
     if date.weekday() < 5:
         if date.hour > 19 and date.hour < 23:
             start_time = time.time()
     elif date.weekday() >= 5:
-        if date.hour > 10 and date.hour < 15:
+        if date.hour > 10 and date.hour < 19:
             start_time = time.time()
    
     current_time = time.time()
